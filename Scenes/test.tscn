@@ -1,15 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://bo77f8slh1cet"]
+[gd_scene load_steps=11 format=3 uid="uid://bo77f8slh1cet"]
 
 [ext_resource type="Script" uid="uid://cjob4e7iqbmnb" path="res://Scenes/BeatMiser/BeatMiser.gd" id="1_8od7v"]
 [ext_resource type="Shader" uid="uid://d34fgskqkejd3" path="res://Shaders/prox.gdshader" id="1_qc4db"]
+[ext_resource type="Shader" uid="uid://bqbgq27nb0oeb" path="res://Shaders/sky.gdshader" id="1_ys1qc"]
 [ext_resource type="Script" uid="uid://bfy2pk5jpqcqe" path="res://Scripts/grid_manager.gd" id="3_o7slt"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cjg1c"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_i3aeo"]
+fractal_gain = 0.3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5wyu1"]
+noise = SubResource("FastNoiseLite_i3aeo")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_35xla"]
+shader = ExtResource("1_ys1qc")
+shader_parameter/noise = SubResource("NoiseTexture2D_5wyu1")
+shader_parameter/baseColor = Color(0.465982, 0.150187, 0.265384, 1)
 
 [sub_resource type="Sky" id="Sky_7xgrm"]
-sky_material = SubResource("ProceduralSkyMaterial_cjg1c")
+sky_material = SubResource("ShaderMaterial_35xla")
 
 [sub_resource type="Environment" id="Environment_w8ear"]
 background_mode = 2
