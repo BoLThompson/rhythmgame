@@ -26,10 +26,10 @@ func _ready() -> void:
 		
 		meshes["wall"].material = proxMaterial;
 		player.moved.connect(onPlayerMoved)
-		proxMaterial.set_shader_parameter("charPos",getDrawPosition(player.position));
+		proxMaterial.set_shader_parameter("charPos",getDrawPosition(player.position+Vector3(0,0,1.0)));
 
 func onPlayerMoved(loc: Vector3) ->void:
-	proxMaterial.set_shader_parameter("charPos",getDrawPosition(loc));
+	proxMaterial.set_shader_parameter("charPos",getDrawPosition(loc+Vector3(0,0,-2.0)));
 
 func spawnGridActor(type, position: Vector3, mesh: Mesh = null) -> GridActor:
 	var p: GridActor = type.new();
