@@ -29,8 +29,8 @@ glow_enabled = true
 render_priority = 0
 shader = ExtResource("1_qc4db")
 shader_parameter/charPos = Vector3(0, 0, 0)
-shader_parameter/prox_thresh_1 = 2.5
-shader_parameter/prox_thresh_2 = 1.5
+shader_parameter/prox_thresh_1 = 2.25
+shader_parameter/prox_thresh_2 = 1.0
 
 [node name="Node3D" type="Node3D"]
 
@@ -46,14 +46,14 @@ script = ExtResource("1_8od7v")
 metadata/_custom_type_script = "uid://cjob4e7iqbmnb"
 
 [node name="GridManager" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, -4.5, -16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, -4.5, -8)
 script = ExtResource("3_o7slt")
-size = Vector3(15, 9, 16)
+size = Vector3(15, 9, 8)
 proxMaterial = SubResource("ShaderMaterial_ys1qc")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
 current = true
-fov = 80.0
+fov = 61.9
 
 [connection signal="DownBeat" from="BeatMiser" to="GridManager" method="step"]
