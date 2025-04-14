@@ -22,7 +22,15 @@ func _ready() -> void:
 func beat() -> void:
 	position.z += 1;
 	if (position.z >= g.size.z): queue_free();
+	
+	var tween = get_tree().create_tween()
+	tween.tween_property(
+		meshInstance, "global_position", g.getDrawPosition(position), 0.2
+	).set_ease(Tween.EASE_OUT);
+	#tween.tween_property(
+		#text, "scale", Vector2.ZERO, 0.25
+	#).set_ease(Tween.EASE_IN).set_delay(0.5);
 
-#put your visual somewhere
-func _process(_delta: float) -> void:
-	meshInstance.global_position = g.getDrawPosition(position);
+##put your visual somewhere
+#func _process(_delta: float) -> void:
+	#meshInstance.global_position = g.getDrawPosition(position);

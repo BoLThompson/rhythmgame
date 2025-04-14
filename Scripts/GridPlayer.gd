@@ -22,6 +22,13 @@ func _process(delta: float) -> void:
 		position.y -= 1;
 		moved_now = true;
 	
-	if (moved_now): moved.emit(position)
+	if (moved_now):
+		moved.emit(position)
+		var tween = get_tree().create_tween()
+		tween.tween_property(
+			meshInstance, "global_position", g.getDrawPosition(position), 0.05
+		).set_ease(Tween.EASE_OUT);
 	
-	super(delta);
+	#super(delta);
+#func _process(_delta: float) -> void:
+	#meshInstance.global_position = g.getDrawPosition(position);
