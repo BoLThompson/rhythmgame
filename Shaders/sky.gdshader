@@ -16,15 +16,19 @@ void sky() {
         COLOR = vec3(0.1, 0.1, 0.1);
     } else {
         // Do expensive sky calculations for background sky only
+		float sinOff = sin(
+			SCREEN_UV.y*16. + TIME*0.02
+			)*0.02;
+		vec2 uv1 = SCREEN_UV + vec2(sinOff, 0.0);
         COLOR = 
 		hsv2rgb(
 			vec3(
 				fract((
 					texture(noise,
-						fract(SCREEN_UV*.9 + vec2(TIME*0.05,0.))
+						fract(uv1*.9 + vec2(TIME*0.05,0.))
 					).x +
 					texture(noise,
-						fract(SCREEN_UV + vec2(TIME*-0.03,0.))
+						fract(uv1 + vec2(TIME*-0.03,0.))
 					).x
 				)
 				*0.5)
