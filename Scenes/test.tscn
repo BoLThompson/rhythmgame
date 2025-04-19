@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bo77f8slh1cet"]
+[gd_scene load_steps=16 format=3 uid="uid://bo77f8slh1cet"]
 
 [ext_resource type="Script" uid="uid://cjob4e7iqbmnb" path="res://Scenes/BeatMiser/BeatMiser.gd" id="1_8od7v"]
 [ext_resource type="Shader" uid="uid://d34fgskqkejd3" path="res://Shaders/prox.gdshader" id="1_qc4db"]
 [ext_resource type="Shader" uid="uid://bqbgq27nb0oeb" path="res://Shaders/sky.gdshader" id="1_ys1qc"]
 [ext_resource type="Script" uid="uid://bfy2pk5jpqcqe" path="res://Scripts/grid_manager.gd" id="3_o7slt"]
+[ext_resource type="Shader" uid="uid://dkaejbof6o57o" path="res://Shaders/border.gdshader" id="5_35xla"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i3aeo"]
 fractal_gain = 0.3
@@ -32,6 +33,25 @@ shader_parameter/charPos = Vector3(0, 0, 0)
 shader_parameter/prox_thresh_1 = 2.25
 shader_parameter/prox_thresh_2 = 1.0
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_35xla"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_i3aeo"]
+seamless = true
+noise = SubResource("FastNoiseLite_35xla")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i3aeo"]
+render_priority = 0
+shader = ExtResource("5_35xla")
+shader_parameter/charPos = Vector3(0, 3.655, 0)
+shader_parameter/innerThresh = 1.355
+shader_parameter/outerThresh = 1.635
+shader_parameter/edgecolor = Color(0, 0.9, 1, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_i3aeo")
+
+[sub_resource type="BoxMesh" id="BoxMesh_5wyu1"]
+material = SubResource("ShaderMaterial_i3aeo")
+size = Vector3(15, 9, -20)
+
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -51,9 +71,14 @@ script = ExtResource("3_o7slt")
 size = Vector3(15, 9, 8)
 proxMaterial = SubResource("ShaderMaterial_ys1qc")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
+[node name="Camera" type="Camera3D" parent="GridManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 4.5, 17)
 current = true
 fov = 61.9
+
+[node name="Border" type="MeshInstance3D" parent="GridManager"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 4.5, 8)
+mesh = SubResource("BoxMesh_5wyu1")
+skeleton = NodePath("../..")
 
 [connection signal="DownBeat" from="BeatMiser" to="GridManager" method="step"]

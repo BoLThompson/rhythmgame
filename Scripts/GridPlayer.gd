@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 		moved.emit(position)
 		var tween = get_tree().create_tween()
 		tween.tween_property(
-			meshInstance, "global_position", g.getDrawPosition(position), 0.05
+			meshInstance, "global_position", g.getDrawPosition(position), 0.1
 		).set_ease(Tween.EASE_OUT);
 	
 	#super(delta);

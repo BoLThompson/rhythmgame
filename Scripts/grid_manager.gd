@@ -17,6 +17,9 @@ var player: GridPlayer;
 
 @export var proxMaterial: Material;
 
+func _process(_delta:float) -> void:
+	$Border.mesh.material.set_shader_parameter("charPos",player.meshInstance.global_position);
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	create_grid();
@@ -30,6 +33,20 @@ func _ready() -> void:
 
 func onPlayerMoved(loc: Vector3) ->void:
 	proxMaterial.set_shader_parameter("charPos",getDrawPosition(loc+Vector3(0,0,-2.0)));
+	var newCamPos = getDrawPosition(loc) + Vector3(0,0,9.5);
+	var tween = get_tree().create_tween();
+	tween.tween_property(
+		$Camera, "global_position", newCamPos, 0.25
+	).set_ease(Tween.EASE_IN_OUT);
+	
+	if (newCamPos.x != $Camera.global_position.x):
+		tween = get_tree().create_tween();
+		tween.tween_property(
+			$Camera, "rotation", Vector3(0,0,0.025 * (-1 if newCamPos.x < $Camera.global_position.x else 1)), 0.125
+		).set_ease(Tween.EASE_IN_OUT);
+		tween.tween_property(
+			$Camera, "rotation", Vector3(0,0,0.0), 0.125
+		).set_ease(Tween.EASE_IN_OUT);
 
 func spawnGridActor(type, position: Vector3, mesh: Mesh = null) -> GridActor:
 	var p: GridActor = type.new();
@@ -47,7 +64,7 @@ func create_grid():
 	position.z = -size.z;
 	
 	for child in get_children():
-		if child is MeshInstance3D:
+		if child is MeshInstance3D and child != $Border:
 			child.free();
 	var mesh1 := BoxMesh.new();
 	mesh1.size = Vector3(0.2,0.02,0.02);
