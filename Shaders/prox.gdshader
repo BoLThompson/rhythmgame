@@ -4,11 +4,13 @@ uniform vec3 charPos;
 uniform float prox_thresh_1;
 uniform float prox_thresh_2;
 
+varying vec3 point;
+
 void vertex() {
+	point = (VIEW_MATRIX * vec4(charPos,1.0)).xyz;
 }
 
 void fragment() {
-	vec3 point = (VIEW_MATRIX * vec4(charPos,1.0)).xyz;
 	float chardistance = length(
 		point
 		-
