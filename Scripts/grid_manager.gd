@@ -31,7 +31,15 @@ func _ready() -> void:
 		proxMaterial.set_shader_parameter("charPos",getDrawPosition(player.position));
 
 func onPlayerMoved(loc: Vector3) ->void:
+	player.adjustArrayIndex()
+	# print(loc)
+	#var occupant = getOccupant(loc)
+	#if occupant:
+		## print(occupant)
+		#if occupant.position == player.position:
+			#get_tree().reload_current_scene()
 	proxMaterial.set_shader_parameter("charPos",getDrawPosition(loc));
+
 
 func spawnGridActor(type, position: Vector3, mesh: Mesh = null) -> GridActor:
 	
@@ -41,10 +49,12 @@ func spawnGridActor(type, position: Vector3, mesh: Mesh = null) -> GridActor:
 		p.mesh = mesh;
 	p.g = self;
 	beat.connect(p.beat)
-	for i in actors.size():
-		if actors[i] == null:
-			actors[i] = p
-			p.index = i
+	p.index = p.position.x + (size.x * (p.position.y)) + (size.x * size.y * p.position.z)
+	actors[p.index] = p
+	#for i in actors.size():
+		#if actors[i] == null:
+			#actors[i] = p
+			#p.index = i
 	add_child(p);
 	return p;
 
@@ -86,12 +96,27 @@ func create_grid():
 func getDrawPosition(c: Vector3) -> Vector3:
 	return global_position + c + Vector3(0.5,0.5,0.5);
 
+
+func coordinatesToIndex(c: Vector3):
+	var index = c.x + (size.x * c.y) + (size.x * size.y * c.z)
+	#var z = int(index) / int(size.x * size.y)
+	#print(z)
+	if int(c.x) != int(index) % int(size.x):
+		print("incorrect x value for index")
+	if (int(c.y) != int((index/size.x)) % int(size.y)):
+		print("incorrect y value for index")
+	if (int(c.z) != int(index) / int(size.x * size.y)):
+		print("incorrect z value for index")
+
 #get the GridActor that occupies a given cell
 func getOccupant(c: Vector3) -> GridActor:
-	return actors[0]
+	var index = c.x + (size.x * c.y) + (size.x * size.y * (c.z - 1))
+	coordinatesToIndex(c)
+	return actors[index]
 	
 func isPlayerColliding(actor: GridActor) -> bool:
 	return player.position == actor.position
+	
 	
 	#for i in actors.size():
 		#if actors[i].position == c:
@@ -102,7 +127,7 @@ var count: int = 0;
 
 func step():
 	beat.emit();
-	print("step")
+	# print("step")
 	# if (count % 4 == 0):
 	var coin_flip: int = randi_range(0, 1)
 	if coin_flip == 0:

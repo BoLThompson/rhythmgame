@@ -3,8 +3,10 @@ class_name GridPlayer
 
 signal moved(Vector3)
 
+	
 func beat() -> void:
 	pass
+	
 
 func _process(delta: float) -> void:
 	var moved_now := false

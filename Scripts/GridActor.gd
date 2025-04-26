@@ -4,6 +4,8 @@ class_name GridActor
 #reference to the GridManager
 var g: GridManager;
 
+signal collided
+
 #my mesh
 var mesh : Mesh;
 
@@ -19,18 +21,21 @@ func _ready() -> void:
 	add_child(meshInstance);
 	meshInstance.global_position = g.getDrawPosition(position);
 
+func adjustArrayIndex():
+	g.actors[index] = null
+	print(position.z)
+	index = position.x + (g.size.x * (position.y)) + (g.size.x * g.size.y * (position.z - 1))
+	g.actors[index] = self
+	# print(position.z)
 #when the downbeat happens
 func beat() -> void:
-	position.z += 1;
-	if g.isPlayerColliding(self):
-		get_tree().reload_current_scene()
-	#var occupant = g.getOccupant(g.player.position)
-	#if (occupant == g.player):
-		#get_tree().reload_current_scene()
-		
-	if (position.z >= g.size.z): 
+	
+	if (position.z >= g.size.z - 1): 
 		queue_free();
-
+		return;
+	else:
+		position.z += 1;
+		adjustArrayIndex()
 #put your visual somewhere
 func _process(_delta: float) -> void:
 	meshInstance.global_position = g.getDrawPosition(position);
