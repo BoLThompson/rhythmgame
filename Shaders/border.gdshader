@@ -4,6 +4,8 @@ render_mode unshaded;
 uniform vec3 charPos;
 uniform float innerThresh;
 uniform float outerThresh;
+uniform float scatter;
+
 
 uniform vec3 edgecolor: source_color;
 
@@ -25,9 +27,9 @@ void fragment() {
 		texture(noise, UV*15.+vec2(0.0,TIME*0.02)).x
 		+ texture(noise, UV*7.+vec2(0.0,TIME*-0.03)).x
 		)
-		*0.5 - chardistance/innerThresh;
+		*0.5;
 	
-	chardistance += bright*.3;
+	chardistance += ((bright-0.5)*scatter);
 	//ALBEDO = vec3(
 		//1. - fract(chardistance/outerThresh)
 	//);

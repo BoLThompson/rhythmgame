@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://bo77f8slh1cet"]
+[gd_scene load_steps=19 format=3 uid="uid://bo77f8slh1cet"]
 
 [ext_resource type="Script" uid="uid://cjob4e7iqbmnb" path="res://Scenes/BeatMiser/BeatMiser.gd" id="1_8od7v"]
 [ext_resource type="Shader" uid="uid://d34fgskqkejd3" path="res://Shaders/prox.gdshader" id="1_qc4db"]
 [ext_resource type="Shader" uid="uid://bqbgq27nb0oeb" path="res://Shaders/sky.gdshader" id="1_ys1qc"]
 [ext_resource type="Script" uid="uid://bfy2pk5jpqcqe" path="res://Scripts/grid_manager.gd" id="3_o7slt"]
 [ext_resource type="Shader" uid="uid://dkaejbof6o57o" path="res://Shaders/border.gdshader" id="5_35xla"]
+[ext_resource type="Texture2D" uid="uid://cawnmwbp7o4m5" path="res://icon.svg" id="6_i3aeo"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i3aeo"]
 fractal_gain = 0.3
@@ -42,15 +43,24 @@ noise = SubResource("FastNoiseLite_35xla")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i3aeo"]
 render_priority = 0
 shader = ExtResource("5_35xla")
-shader_parameter/charPos = Vector3(0, 3.655, 0)
-shader_parameter/innerThresh = 1.355
-shader_parameter/outerThresh = 1.635
+shader_parameter/charPos = Vector3(0, 3, 0)
+shader_parameter/innerThresh = 1.52
+shader_parameter/outerThresh = 1.88
+shader_parameter/scatter = 0.36
 shader_parameter/edgecolor = Color(0, 0.9, 1, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_i3aeo")
 
 [sub_resource type="BoxMesh" id="BoxMesh_5wyu1"]
 material = SubResource("ShaderMaterial_i3aeo")
 size = Vector3(15, 9, -20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5wyu1"]
+albedo_texture = ExtResource("6_i3aeo")
+uv1_scale = Vector3(0.25, 0.25, 0.25)
+uv1_offset = Vector3(0.5, 0.5, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0c07c"]
+material = SubResource("StandardMaterial3D_5wyu1")
 
 [node name="Node3D" type="Node3D"]
 
@@ -80,5 +90,9 @@ fov = 61.9
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 4.5, 8)
 mesh = SubResource("BoxMesh_5wyu1")
 skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_0c07c")
 
 [connection signal="DownBeat" from="BeatMiser" to="GridManager" method="step"]
