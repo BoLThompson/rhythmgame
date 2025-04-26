@@ -18,6 +18,7 @@ var player: GridPlayer;
 @export var proxMaterial: Material;
 
 func _process(_delta:float) -> void:
+	if not Engine.is_editor_hint():
 	$Border.mesh.material.set_shader_parameter("charPos",player.meshInstance.global_position);
 
 # Called when the node enters the scene tree for the first time.
