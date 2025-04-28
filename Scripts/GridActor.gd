@@ -15,21 +15,36 @@ func _ready() -> void:
 
 #when the downbeat happens
 func beat() -> void:
-	position.z += 1;
-	if (position.z >= g.size.z): queue_free();
-	
+	var newPos := position;
+	newPos.z += 1;
+	tryMoving(newPos);	
+	moveVisual();
+
+func tryMoving(newPos: Vector3) -> void:
+	var slots = g.getOccupants(newPos);
+
+	#if we can't move then this is the end of the tunnel, so just be dead
+	if (slots is bool && slots == false):
+		queue_free();
+		return;
+
+	for slot in slots:
+		if slot.has_method("collide"):
+			slot.collide(self);
+
+	#actually move
+	g.moveActor(self, newPos);
+
+func moveVisual() -> void:
+	#drag your visual along
 	var tween = get_tree().create_tween()
 	tween.tween_property(
 		meshInstance, "global_position", g.getDrawPosition(position), 0.2
 	).set_ease(Tween.EASE_OUT);
-	#tween.tween_property(
-		#text, "scale", Vector2.ZERO, 0.25
-	#).set_ease(Tween.EASE_IN).set_delay(0.5);
 
 func setMaterial(material) -> void:
 	for child in $Visual.get_children():
 		child.set_surface_override_material(0,material);
 
-##put your visual somewhere
-#func _process(_delta: float) -> void:
-	#meshInstance.global_position = g.getDrawPosition(position);
+func _exit_tree() -> void:
+	g.removeActor(self);

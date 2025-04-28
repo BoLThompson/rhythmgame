@@ -9,10 +9,6 @@ class_name GridManager
 
 @export var obstacleMap: Dictionary[String, PackedScene];
 
-var meshes: Dictionary = {
-	"wall": QuadMesh.new(),
-};
-
 signal beat;
 
 var player: GridPlayer;
@@ -21,6 +17,12 @@ var player: GridPlayer;
 
 var camZ: float;
 
+class occupantList:
+	var list: Array[GridActor] = [];
+
+#array of lists of grid actors so that we can track who (and how many) are in what cell quickly
+var occupants: Array[occupantList];
+
 func _process(_delta:float) -> void:
 	if not Engine.is_editor_hint():
 		$Border.mesh.material.set_shader_parameter("charPos",player.meshInstance.global_position);
@@ -28,18 +30,27 @@ func _process(_delta:float) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	occupants.resize(size.x*size.y*size.z);
+	for i in range(occupants.size()):
+		occupants[i] = occupantList.new();
+	
 	create_grid();
 	
 	for child in get_children():
 		if child is GridPlayer: player = child;
 	
 	camZ = $Camera.global_position.z;
-	onPlayerMoved(player.position)
 
 	if not Engine.is_editor_hint():
-		
-		meshes["wall"].material = proxMaterial;
+		onPlayerMoved(player.position)
 		player.moved.connect(onPlayerMoved)
+		player.collision.connect(
+			func(arg):
+				print("collision: ", arg);
+				pass
+		)
+		addActor(player);
+		#print(occupants.map(func(o): return o.list));
 
 func onPlayerMoved(loc: Vector3) ->void:
 	var basePos = getDrawPosition(loc);
@@ -67,6 +78,7 @@ func spawnGridActor(type, position: Vector3) -> GridActor:
 	p.g = self;
 	beat.connect(p.beat)
 	add_child(p);
+	addActor(p);
 	return p;
 
 func create_grid():
@@ -108,14 +120,35 @@ func getDrawPosition(c: Vector3) -> Vector3:
 	return global_position + c + Vector3(0.5,0.5,0.5);
 
 #get the GridActor that occupies a given cell
-func getOccupant(c: Vector3) -> GridActor:
-	for child in get_children():
-		if child is GridActor:
-			if child.position == c:
-				return child;
+func getOccupants(c: Vector3):
+	if (c.x < 0 || c.x >= size.x || c.y < 0 || c.y >= size.y || c.z < 0 || c.z >= size.z):
+		return false;
+	return occupants[posToIndex(c)].list;
 	return null;
 
-var count: int = 0;
+#used to move an actor from one spot to another
+func moveActor(actor: GridActor, newPos: Vector3) -> void:
+	removeActor(actor);
+	actor.position = newPos;
+	addActor(actor);
+
+#used to remove a reference to the actor in our occupants array
+func removeActor(actor: GridActor) -> void:
+	var space: occupantList = occupants[posToIndex(actor.position)];
+	var indexInList = space.list.find(actor);
+	# if (indexInList == -1):
+	# 	print("BIG PROBLEM");
+	# 	return
+	space.list.remove_at(indexInList);
+
+#used to put a reference to the actor in our occupants array
+func addActor(actor: GridActor) -> void:
+	var space: occupantList = occupants[posToIndex(actor.position)];
+	space.list.append(actor);
+
+func posToIndex(pos: Vector3) -> int:
+	var index: int = int(pos.x) + int(size.x * pos.y) + int(size.x * size.y * pos.z);
+	return index;
 
 func step():
 	beat.emit();
@@ -134,6 +167,3 @@ func step():
 						0
 					)
 				);
-	
-	#spawn new grid actors according to the level reader
-	pass;
