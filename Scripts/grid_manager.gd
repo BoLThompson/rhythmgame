@@ -34,17 +34,16 @@ func _ready() -> void:
 		if child is GridPlayer: player = child;
 	
 	camZ = $Camera.global_position.z;
+	onPlayerMoved(player.position)
 
 	if not Engine.is_editor_hint():
-		player = spawnGridActor(GridPlayer, Vector3(floor(size.x/2), floor(size.y/2), size.z-1), BoxMesh.new());
 		
 		meshes["wall"].material = proxMaterial;
 		player.moved.connect(onPlayerMoved)
-		proxMaterial.set_shader_parameter("charPos",getDrawPosition(player.position+Vector3(0,0,1.0)));
 
 func onPlayerMoved(loc: Vector3) ->void:
-	proxMaterial.set_shader_parameter("charPos",getDrawPosition(loc+Vector3(0,0,-2.0)));
 	var basePos = getDrawPosition(loc);
+	basePos.y += 1;
 	basePos.z = 0.0;
 	var newCamPos = basePos + Vector3(0,0,camZ);
 	var tween = get_tree().create_tween();
