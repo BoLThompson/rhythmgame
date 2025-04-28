@@ -7,10 +7,7 @@ class_name GridManager
 		size = val;
 		create_grid();
 
-var meshes: Dictionary = {
-	"wall": QuadMesh.new(),
-	"asteroid": SphereMesh.new(),
-};
+@export var obstacleMap: Dictionary[String, PackedScene];
 
 signal beat;
 
@@ -18,34 +15,70 @@ var player: GridPlayer;
 
 @export var proxMaterial: Material;
 
-var actors: Array[GridActor]
+var camZ: float;
+
+class occupantList:
+	var list: Array[GridActor] = [];
+
+#array of lists of grid actors so that we can track who (and how many) are in what cell quickly
+var occupants: Array[occupantList];
+
+func _process(_delta:float) -> void:
+	if not Engine.is_editor_hint():
+		$Border.mesh.material.set_shader_parameter("charPos",player.meshInstance.global_position);
+		proxMaterial.set_shader_parameter("charPos",player.meshInstance.global_position);
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	occupants.resize(size.x*size.y*size.z);
+	for i in range(occupants.size()):
+		occupants[i] = occupantList.new();
+	
 	create_grid();
-	actors.resize(size.x * size.y * size.z)
+	
+	for child in get_children():
+		if child is GridPlayer: player = child;
+	
+	camZ = $Camera.global_position.z;
+
 	if not Engine.is_editor_hint():
-		player = spawnGridActor(GridPlayer, Vector3(floor(size.x/2), floor(size.y/2), size.z-1), BoxMesh.new());
-		
-		meshes["wall"].material = proxMaterial;
+		onPlayerMoved(player.position)
 		player.moved.connect(onPlayerMoved)
-		proxMaterial.set_shader_parameter("charPos",getDrawPosition(player.position));
+		player.collision.connect(
+			func(arg):
+				print("collision: ", arg);
+				pass
+		)
+		addActor(player);
+		#print(occupants.map(func(o): return o.list));
 
 func onPlayerMoved(loc: Vector3) ->void:
-	proxMaterial.set_shader_parameter("charPos",getDrawPosition(loc));
-
-func spawnGridActor(type, position: Vector3, mesh: Mesh = null) -> GridActor:
+	var basePos = getDrawPosition(loc);
+	basePos.y += 1;
+	basePos.z = 0.0;
+	var newCamPos = basePos + Vector3(0,0,camZ);
+	var tween = get_tree().create_tween();
+	tween.tween_property(
+		$Camera, "global_position", newCamPos, 0.25
+	).set_ease(Tween.EASE_IN_OUT);
 	
-	var p: GridActor = type.new();
+	if (newCamPos.x != $Camera.global_position.x):
+		tween = get_tree().create_tween();
+		tween.tween_property(
+			$Camera, "rotation", Vector3(0,0,0.025 * (-1 if newCamPos.x < $Camera.global_position.x else 1)), 0.125
+		).set_ease(Tween.EASE_IN_OUT);
+		tween.tween_property(
+			$Camera, "rotation", Vector3(0,0,0.0), 0.125
+		).set_ease(Tween.EASE_IN_OUT);
+
+func spawnGridActor(type, position: Vector3) -> GridActor:
+	var p: GridActor = type.instantiate();
+	p.setMaterial(proxMaterial);
 	p.position = position;
-	if (mesh):
-		p.mesh = mesh;
 	p.g = self;
 	beat.connect(p.beat)
-	for i in actors.size():
-		if actors[i] == null:
-			actors[i] = p
-			p.index = i
 	add_child(p);
+	addActor(p);
 	return p;
 
 func create_grid():
@@ -54,7 +87,7 @@ func create_grid():
 	position.z = -size.z;
 	
 	for child in get_children():
-		if child is MeshInstance3D:
+		if child is MeshInstance3D and child != $Border:
 			child.free();
 	var mesh1 := BoxMesh.new();
 	mesh1.size = Vector3(0.2,0.02,0.02);
@@ -87,43 +120,50 @@ func getDrawPosition(c: Vector3) -> Vector3:
 	return global_position + c + Vector3(0.5,0.5,0.5);
 
 #get the GridActor that occupies a given cell
-func getOccupant(c: Vector3) -> GridActor:
-	return actors[0]
-	
-func isPlayerColliding(actor: GridActor) -> bool:
-	return player.position == actor.position
-	
-	#for i in actors.size():
-		#if actors[i].position == c:
-			#return actor;
-	#return null;
+func getOccupants(c: Vector3):
+	if (c.x < 0 || c.x >= size.x || c.y < 0 || c.y >= size.y || c.z < 0 || c.z >= size.z):
+		return false;
+	return occupants[posToIndex(c)].list;
+	return null;
 
-var count: int = 0;
+#used to move an actor from one spot to another
+func moveActor(actor: GridActor, newPos: Vector3) -> void:
+	removeActor(actor);
+	actor.position = newPos;
+	addActor(actor);
+
+#used to remove a reference to the actor in our occupants array
+func removeActor(actor: GridActor) -> void:
+	var space: occupantList = occupants[posToIndex(actor.position)];
+	var indexInList = space.list.find(actor);
+	# if (indexInList == -1):
+	# 	print("BIG PROBLEM");
+	# 	return
+	space.list.remove_at(indexInList);
+
+#used to put a reference to the actor in our occupants array
+func addActor(actor: GridActor) -> void:
+	var space: occupantList = occupants[posToIndex(actor.position)];
+	space.list.append(actor);
+
+func posToIndex(pos: Vector3) -> int:
+	var index: int = int(pos.x) + int(size.x * pos.y) + int(size.x * size.y * pos.z);
+	return index;
 
 func step():
 	beat.emit();
-	print("step")
-	# if (count % 4 == 0):
-	var coin_flip: int = randi_range(0, 1)
-	if coin_flip == 0:
-		spawnGridActor(GridWall, 
-			Vector3(
-				randi_range(0, size.x-1),
-				randi_range(0,size.y-1),
-				# size.x-1,size.y-1,
-				0
-			)
-		);
-	else:
-		spawnGridActor(GridAsteroid, 
-			Vector3(
-				randi_range(0, size.x-1),
-				randi_range(0,size.y-1),
-				# size.x-1,size.y-1,
-				0
-			)
-		);
 	
-	count = (count + 1) % 4;
-	#spawn new grid actors according to the level reader
-	pass;
+	var layer: Array = $CsvReader.readLayer();
+	
+	if (layer.size() != 0):
+		for y in range(size.y):
+			for x in range(size.x):
+				if not layer[y][x] in obstacleMap: continue;
+				
+				spawnGridActor(obstacleMap[layer[y][x]], 
+					Vector3(
+						x,
+						size.y-y-1,
+						0
+					)
+				);

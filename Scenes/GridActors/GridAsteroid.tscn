@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8dggrsyxl7a3"]
+
+[ext_resource type="Script" uid="uid://c8oq4ca2qmnjc" path="res://Scripts/GridAsteroid.gd" id="1_rle80"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_rle80"]
+
+[node name="GridAsteroid" type="Node"]
+script = ExtResource("1_rle80")
+metadata/_custom_type_script = "uid://38qvfaor4sas"
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visual"]
+mesh = SubResource("SphereMesh_rle80")
