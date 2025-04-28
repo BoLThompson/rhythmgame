@@ -6,8 +6,8 @@
 [ext_resource type="Script" uid="uid://bfy2pk5jpqcqe" path="res://Scripts/grid_manager.gd" id="3_o7slt"]
 [ext_resource type="PackedScene" uid="uid://cftcex8j24toi" path="res://Scenes/GridActors/GridWall.tscn" id="4_0c07c"]
 [ext_resource type="PackedScene" uid="uid://b8dggrsyxl7a3" path="res://Scenes/GridActors/GridAsteroid.tscn" id="5_2cgwh"]
-[ext_resource type="Shader" path="res://Shaders/border.gdshader" id="5_35xla"]
-[ext_resource type="Script" path="res://Scripts/csv_parser.gd" id="6_i3aeo"]
+[ext_resource type="Shader" uid="uid://dkaejbof6o57o" path="res://Shaders/border.gdshader" id="5_35xla"]
+[ext_resource type="Script" uid="uid://dxnr15umaymuk" path="res://Scripts/csv_parser.gd" id="6_i3aeo"]
 [ext_resource type="PackedScene" uid="uid://c0t7fb6oi8rgj" path="res://Scenes/GridActors/GridPlayer.tscn" id="7_5wyu1"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i3aeo"]
