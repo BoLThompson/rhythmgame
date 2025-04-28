@@ -7,6 +7,8 @@ class_name GridManager
 		size = val;
 		create_grid();
 
+@export var obstacles: Dictionary[String, PackedScene];
+
 var meshes: Dictionary = {
 	"wall": QuadMesh.new(),
 };
@@ -17,13 +19,17 @@ var player: GridPlayer;
 
 @export var proxMaterial: Material;
 
+var camZ: float;
+
 func _process(_delta:float) -> void:
 	if not Engine.is_editor_hint():
-	$Border.mesh.material.set_shader_parameter("charPos",player.meshInstance.global_position);
+		$Border.mesh.material.set_shader_parameter("charPos",player.meshInstance.global_position);
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	create_grid();
+	
+	camZ = $Camera.global_position.z;
 
 	if not Engine.is_editor_hint():
 		player = spawnGridActor(GridPlayer, Vector3(floor(size.x/2), floor(size.y/2), size.z-1), BoxMesh.new());
@@ -34,7 +40,9 @@ func _ready() -> void:
 
 func onPlayerMoved(loc: Vector3) ->void:
 	proxMaterial.set_shader_parameter("charPos",getDrawPosition(loc+Vector3(0,0,-2.0)));
-	var newCamPos = getDrawPosition(loc) + Vector3(0,0,9.5);
+	var basePos = getDrawPosition(loc);
+	basePos.z = 0.0;
+	var newCamPos = basePos + Vector3(0,0,camZ);
 	var tween = get_tree().create_tween();
 	tween.tween_property(
 		$Camera, "global_position", newCamPos, 0.25
@@ -117,8 +125,8 @@ func step():
 			for x in range(size.x):
 				if (layer[y][x] == ""): continue;
 				
-	spawnGridActor(GridWall, 
-		Vector3(
+				spawnGridActor(GridWall, 
+					Vector3(
 						x,
 						size.y-y-1,
 						0
