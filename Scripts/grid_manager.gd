@@ -110,16 +110,31 @@ var count: int = 0;
 func step():
 	beat.emit();
 	
-	# if (count % 4 == 0):
+	var layer: Array = $CsvReader.readLayer();
+	
+	if (layer.size() != 0):
+		for y in range(size.y):
+			for x in range(size.x):
+				if (layer[y][x] == ""): continue;
+				
 	spawnGridActor(GridWall, 
 		Vector3(
-			randi_range(0, size.x-1),
-			randi_range(0,size.y-1),
-			# size.x-1,size.y-1,
-			0
-		)
-	);
-	count = (count + 1) % 4;
+						x,
+						size.y-y-1,
+						0
+					)
+				);
+	
+	## if (count % 4 == 0):
+	#spawnGridActor(GridWall, 
+		#Vector3(
+			#randi_range(0, size.x-1),
+			#randi_range(0,size.y-1),
+			## size.x-1,size.y-1,
+			#0
+		#)
+	#);
+	#count = (count + 1) % 4;
 	
 	#spawn new grid actors according to the level reader
 	pass;
