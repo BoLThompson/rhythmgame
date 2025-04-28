@@ -2,20 +2,15 @@ extends Node
 class_name GridActor
 
 #reference to the GridManager
-var g: GridManager;
+@onready var g: GridManager = get_parent();
 
-#my mesh
-var mesh : Mesh;
-
-var meshInstance : MeshInstance3D;
+var meshInstance : Node3D;
 
 #grid coordinates
 var position := Vector3();
 
 func _ready() -> void:
-	meshInstance = MeshInstance3D.new();
-	meshInstance.mesh = mesh;
-	add_child(meshInstance);
+	meshInstance = $Visual
 	meshInstance.global_position = g.getDrawPosition(position);
 
 #when the downbeat happens
@@ -30,6 +25,10 @@ func beat() -> void:
 	#tween.tween_property(
 		#text, "scale", Vector2.ZERO, 0.25
 	#).set_ease(Tween.EASE_IN).set_delay(0.5);
+
+func setMaterial(material) -> void:
+	for child in $Visual.get_children():
+		child.set_surface_override_material(0,material);
 
 ##put your visual somewhere
 #func _process(_delta: float) -> void:

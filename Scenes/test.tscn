@@ -1,11 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://bo77f8slh1cet"]
+[gd_scene load_steps=20 format=3 uid="uid://bo77f8slh1cet"]
 
 [ext_resource type="Script" uid="uid://cjob4e7iqbmnb" path="res://Scenes/BeatMiser/BeatMiser.gd" id="1_8od7v"]
 [ext_resource type="Shader" uid="uid://d34fgskqkejd3" path="res://Shaders/prox.gdshader" id="1_qc4db"]
 [ext_resource type="Shader" uid="uid://bqbgq27nb0oeb" path="res://Shaders/sky.gdshader" id="1_ys1qc"]
 [ext_resource type="Script" uid="uid://bfy2pk5jpqcqe" path="res://Scripts/grid_manager.gd" id="3_o7slt"]
-[ext_resource type="Shader" uid="uid://dkaejbof6o57o" path="res://Shaders/border.gdshader" id="5_35xla"]
-[ext_resource type="Script" uid="uid://dxnr15umaymuk" path="res://Scripts/csv_parser.gd" id="6_i3aeo"]
+[ext_resource type="PackedScene" uid="uid://cftcex8j24toi" path="res://Scenes/GridActors/GridWall.tscn" id="4_0c07c"]
+[ext_resource type="PackedScene" uid="uid://b8dggrsyxl7a3" path="res://Scenes/GridActors/GridAsteroid.tscn" id="5_2cgwh"]
+[ext_resource type="Shader" path="res://Shaders/border.gdshader" id="5_35xla"]
+[ext_resource type="Script" path="res://Scripts/csv_parser.gd" id="6_i3aeo"]
+[ext_resource type="PackedScene" uid="uid://c0t7fb6oi8rgj" path="res://Scenes/GridActors/GridPlayer.tscn" id="7_5wyu1"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i3aeo"]
 fractal_gain = 0.3
@@ -75,10 +78,14 @@ metadata/_custom_type_script = "uid://cjob4e7iqbmnb"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, -4.5, -8)
 script = ExtResource("3_o7slt")
 size = Vector3(15, 9, 8)
+obstacleMap = Dictionary[String, PackedScene]({
+"a": ExtResource("5_2cgwh"),
+"w": ExtResource("4_0c07c")
+})
 proxMaterial = SubResource("ShaderMaterial_ys1qc")
 
 [node name="Camera" type="Camera3D" parent="GridManager"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 4.5, 12.375)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 4.5, 13.9787)
 current = true
 fov = 61.9
 
@@ -91,5 +98,7 @@ skeleton = NodePath("../..")
 script = ExtResource("6_i3aeo")
 size = Vector2(15, 9)
 levelFile = "uid://kw7ooxwbjvhv"
+
+[node name="GridPlayer" parent="GridManager" instance=ExtResource("7_5wyu1")]
 
 [connection signal="DownBeat" from="BeatMiser" to="GridManager" method="step"]

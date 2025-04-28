@@ -3,6 +3,10 @@ class_name GridPlayer
 
 signal moved(Vector3)
 
+func _ready() -> void:
+	position = Vector3(floor(g.size.x/2), floor(g.size.y/2), g.size.z-1);
+	super();
+
 func beat() -> void:
 	pass
 

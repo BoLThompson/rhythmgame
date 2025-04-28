@@ -7,7 +7,7 @@ class_name GridManager
 		size = val;
 		create_grid();
 
-@export var obstacles: Dictionary[String, PackedScene];
+@export var obstacleMap: Dictionary[String, PackedScene];
 
 var meshes: Dictionary = {
 	"wall": QuadMesh.new(),
@@ -24,10 +24,14 @@ var camZ: float;
 func _process(_delta:float) -> void:
 	if not Engine.is_editor_hint():
 		$Border.mesh.material.set_shader_parameter("charPos",player.meshInstance.global_position);
+		proxMaterial.set_shader_parameter("charPos",player.meshInstance.global_position);
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	create_grid();
+	
+	for child in get_children():
+		if child is GridPlayer: player = child;
 	
 	camZ = $Camera.global_position.z;
 
@@ -57,11 +61,10 @@ func onPlayerMoved(loc: Vector3) ->void:
 			$Camera, "rotation", Vector3(0,0,0.0), 0.125
 		).set_ease(Tween.EASE_IN_OUT);
 
-func spawnGridActor(type, position: Vector3, mesh: Mesh = null) -> GridActor:
-	var p: GridActor = type.new();
+func spawnGridActor(type, position: Vector3) -> GridActor:
+	var p: GridActor = type.instantiate();
+	p.setMaterial(proxMaterial);
 	p.position = position;
-	if (mesh):
-		p.mesh = mesh;
 	p.g = self;
 	beat.connect(p.beat)
 	add_child(p);
@@ -123,26 +126,15 @@ func step():
 	if (layer.size() != 0):
 		for y in range(size.y):
 			for x in range(size.x):
-				if (layer[y][x] == ""): continue;
+				if not layer[y][x] in obstacleMap: continue;
 				
-				spawnGridActor(GridWall, 
+				spawnGridActor(obstacleMap[layer[y][x]], 
 					Vector3(
 						x,
 						size.y-y-1,
 						0
 					)
 				);
-	
-	## if (count % 4 == 0):
-	#spawnGridActor(GridWall, 
-		#Vector3(
-			#randi_range(0, size.x-1),
-			#randi_range(0,size.y-1),
-			## size.x-1,size.y-1,
-			#0
-		#)
-	#);
-	#count = (count + 1) % 4;
 	
 	#spawn new grid actors according to the level reader
 	pass;

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0t7fb6oi8rgj"]
+
+[ext_resource type="Script" uid="uid://c1nd77ycynh7n" path="res://Scripts/GridPlayer.gd" id="1_nasfx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nasfx"]
+
+[node name="GridPlayer" type="Node"]
+script = ExtResource("1_nasfx")
+metadata/_custom_type_script = "uid://38qvfaor4sas"
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visual"]
+mesh = SubResource("BoxMesh_nasfx")
+skeleton = NodePath("../..")
