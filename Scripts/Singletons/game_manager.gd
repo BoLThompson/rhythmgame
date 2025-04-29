@@ -1,7 +1,7 @@
 extends Node
 
 var grid_manager: GridManager
-var player: GridPlayer = grid_manager.player
+var player: GridPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

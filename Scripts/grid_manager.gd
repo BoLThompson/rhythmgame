@@ -38,7 +38,9 @@ func _ready() -> void:
 	create_grid();
 	
 	for child in get_children():
-		if child is GridPlayer: player = child;
+		if child is GridPlayer: 
+			player = child;
+			GameManager.player = player
 	
 	camZ = $Camera.global_position.z;
 
