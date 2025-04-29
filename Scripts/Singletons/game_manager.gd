@@ -15,7 +15,8 @@ func _process(delta: float) -> void:
 func on_player_collision(other: GridActor):
 	player.health -= 1
 	if player.health < 0:
-		set_process(false)
+		grid_manager.set_process(false)
+		
 		player.queue_free()
 		await get_tree().create_timer(0.1).timeout
 		get_tree().reload_current_scene()
