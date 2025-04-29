@@ -3,6 +3,8 @@ class_name GridPlayer
 
 signal moved(Vector3)
 signal collision(GridActor)
+@export var health: int = 2
+@onready var audio = $AudioStreamPlayer
 
 func _ready() -> void:
 	position = Vector3(floor(g.size.x/2), floor(g.size.y/2), g.size.z-1);

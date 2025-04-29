@@ -3,11 +3,13 @@
 importer="csv_translation"
 type="Translation"
 uid="uid://kw7ooxwbjvhv"
-valid=false
 
 [deps]
 
+files=["res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.a.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation"]
+
 source_file="res://Level/Level.csv"
+dest_files=["res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation", "res://Level/Level.a.translation", "res://Level/Level.w.translation", "res://Level/Level.w.translation"]
 
 [params]
 

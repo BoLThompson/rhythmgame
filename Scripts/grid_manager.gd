@@ -44,10 +44,10 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		onPlayerMoved(player.position)
 		player.moved.connect(onPlayerMoved)
-		player.collision.connect(
-			func(arg):
-				print("collision: ", arg);
-				pass
+		player.collision.connect(on_player_collision
+			#func(arg):
+				#print("collision: ", arg);
+				#pass
 		)
 		addActor(player);
 		#print(occupants.map(func(o): return o.list));
@@ -150,6 +150,7 @@ func posToIndex(pos: Vector3) -> int:
 	var index: int = int(pos.x) + int(size.x * pos.y) + int(size.x * size.y * pos.z);
 	return index;
 
+
 func step():
 	beat.emit();
 	
@@ -167,3 +168,13 @@ func step():
 						0
 					)
 				);
+				
+func on_player_collision(other: GridActor):
+	player.health -= 1
+	if player.health < 0:
+		set_process(false)
+		player.queue_free()
+		await get_tree().create_timer(0.1).timeout
+		get_tree().reload_current_scene()
+	else:
+		player.audio.play()
