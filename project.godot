@@ -18,3 +18,4 @@ config/icon="res://icon.svg"
 [autoload]
 
 DamageNumbers="*res://Scripts/Singletons/DamageNumbers.gd"
+GameManager="*res://Scripts/Singletons/game_manager.gd"

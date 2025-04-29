@@ -30,6 +30,7 @@ func _process(_delta:float) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	GameManager.grid_manager = self
 	occupants.resize(size.x*size.y*size.z);
 	for i in range(occupants.size()):
 		occupants[i] = occupantList.new();
@@ -44,7 +45,7 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		onPlayerMoved(player.position)
 		player.moved.connect(onPlayerMoved)
-		player.collision.connect(on_player_collision
+		player.collision.connect(GameManager.on_player_collision
 			#func(arg):
 				#print("collision: ", arg);
 				#pass
@@ -169,12 +170,12 @@ func step():
 					)
 				);
 				
-func on_player_collision(other: GridActor):
-	player.health -= 1
-	if player.health < 0:
-		set_process(false)
-		player.queue_free()
-		await get_tree().create_timer(0.1).timeout
-		get_tree().reload_current_scene()
-	else:
-		player.audio.play()
+#func on_player_collision(other: GridActor):
+	#player.health -= 1
+	#if player.health < 0:
+		#set_process(false)
+		#player.queue_free()
+		#await get_tree().create_timer(0.1).timeout
+		#get_tree().reload_current_scene()
+	#else:
+		#player.audio.play()
