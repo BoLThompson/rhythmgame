@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bo77f8slh1cet"]
+[gd_scene load_steps=24 format=3 uid="uid://bo77f8slh1cet"]
 
 [ext_resource type="Script" uid="uid://cjob4e7iqbmnb" path="res://Scenes/BeatMiser/BeatMiser.gd" id="1_8od7v"]
 [ext_resource type="Shader" uid="uid://d34fgskqkejd3" path="res://Shaders/prox.gdshader" id="1_qc4db"]
@@ -7,8 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://cftcex8j24toi" path="res://Scenes/GridActors/GridWall.tscn" id="4_0c07c"]
 [ext_resource type="PackedScene" uid="uid://b8dggrsyxl7a3" path="res://Scenes/GridActors/GridAsteroid.tscn" id="5_2cgwh"]
 [ext_resource type="Shader" uid="uid://dkaejbof6o57o" path="res://Shaders/border.gdshader" id="5_35xla"]
+[ext_resource type="PackedScene" uid="uid://bpaixnw2km0ib" path="res://Scenes/GridActors/GridPacerUp.tscn" id="6_aees8"]
 [ext_resource type="Script" uid="uid://dxnr15umaymuk" path="res://Scripts/csv_parser.gd" id="6_i3aeo"]
 [ext_resource type="PackedScene" uid="uid://c0t7fb6oi8rgj" path="res://Scenes/GridActors/GridPlayer.tscn" id="7_5wyu1"]
+[ext_resource type="PackedScene" uid="uid://dpcxr764g3qt0" path="res://Scenes/GridActors/GridPacerDown.tscn" id="7_mie3u"]
+[ext_resource type="PackedScene" uid="uid://yursj00msbg6" path="res://Scenes/GridActors/GridPacerLeft.tscn" id="8_0qy5o"]
+[ext_resource type="PackedScene" uid="uid://d3027byhmepnr" path="res://Scenes/GridActors/GridPacerRight.tscn" id="9_7nf3m"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i3aeo"]
 fractal_gain = 0.3
@@ -72,6 +76,7 @@ light_bake_mode = 1
 
 [node name="BeatMiser" type="Node" parent="."]
 script = ExtResource("1_8od7v")
+InputsToPenalize = Array[String](["ui_accept", "ui_left", "ui_right", "ui_down", "ui_up"])
 metadata/_custom_type_script = "uid://cjob4e7iqbmnb"
 
 [node name="GridManager" type="Node3D" parent="."]
@@ -79,7 +84,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, -4.5, -8)
 script = ExtResource("3_o7slt")
 size = Vector3(15, 9, 8)
 obstacleMap = Dictionary[String, PackedScene]({
+"<": ExtResource("8_0qy5o"),
+">": ExtResource("9_7nf3m"),
+"^": ExtResource("6_aees8"),
 "a": ExtResource("5_2cgwh"),
+"v": ExtResource("7_mie3u"),
 "w": ExtResource("4_0c07c")
 })
 proxMaterial = SubResource("ShaderMaterial_ys1qc")

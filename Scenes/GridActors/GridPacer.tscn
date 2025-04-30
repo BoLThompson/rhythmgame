@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://ceoh28iy5kxag"]
+
+[ext_resource type="Script" uid="uid://b5nbwcalca3fh" path="res://Scripts/GridPacer.gd" id="1_msrt1"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_msrt1"]
+size = Vector3(0.5, 1, 1)
+
+[node name="GridPacer" type="Node"]
+script = ExtResource("1_msrt1")
+metadata/_custom_type_script = "uid://38qvfaor4sas"
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visual"]
+mesh = SubResource("PrismMesh_msrt1")
