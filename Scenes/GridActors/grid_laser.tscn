@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://batqlcum0pd0v"]
+
+[ext_resource type="Script" uid="uid://b4bbwttwa1m6n" path="res://scripts/GridLaser.gd" id="1_bje47"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ko31d"]
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mhnif"]
+albedo_color = Color(0, 1, 0.415686, 1)
+
+[node name="GridLaser" type="Node"]
+script = ExtResource("1_bje47")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_ko31d")
+surface_material_override/0 = SubResource("StandardMaterial3D_mhnif")

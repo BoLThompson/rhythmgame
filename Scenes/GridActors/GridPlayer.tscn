@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c0t7fb6oi8rgj"]
 
 [ext_resource type="Script" uid="uid://c1nd77ycynh7n" path="res://Scripts/GridPlayer.gd" id="1_nasfx"]
-[ext_resource type="AudioStream" uid="uid://dm80qoirhlkra" path="res://assets/sounds/boom1.wav" id="2_qbkpc"]
+[ext_resource type="AudioStream" uid="uid://m1wfc5qgsol8" path="res://assets/sounds/boom1.wav" id="2_qbkpc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nasfx"]
 
