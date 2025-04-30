@@ -72,6 +72,7 @@ light_bake_mode = 1
 
 [node name="BeatMiser" type="Node" parent="."]
 script = ExtResource("1_8od7v")
+InputsToPenalize = Array[String](["ui_accept", "ui_left", "ui_right", "ui_down", "ui_up"])
 metadata/_custom_type_script = "uid://cjob4e7iqbmnb"
 
 [node name="GridManager" type="Node3D" parent="."]
