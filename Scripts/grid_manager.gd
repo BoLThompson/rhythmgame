@@ -92,30 +92,30 @@ func create_grid():
 	for child in get_children():
 		if child is MeshInstance3D and child != $Border:
 			child.free();
-	var mesh1 := BoxMesh.new();
-	mesh1.size = Vector3(0.2,0.02,0.02);
-	mesh1.material = proxMaterial;
-	var mesh2 := BoxMesh.new();
-	mesh2.size = Vector3(0.02,0.2,0.02);
-	mesh2.material = proxMaterial;
-	var mesh3 := BoxMesh.new();
-	mesh3.size = Vector3(0.02,0.02,0.2);
-	mesh3.material = proxMaterial;
-	for row in size.x+1:
-		for col in size.y+1:
-			for i in size.z+1:
-				var marker := MeshInstance3D.new()
-				marker.mesh = mesh1
-				marker.position = Vector3(row, col, i)
-				add_child(marker);
-				marker = MeshInstance3D.new()
-				marker.mesh = mesh2
-				marker.position = Vector3(row, col, i)
-				add_child(marker);
-				marker = MeshInstance3D.new()
-				marker.mesh = mesh3
-				marker.position = Vector3(row, col, i)
-				add_child(marker);
+	#var mesh1 := BoxMesh.new();
+	#mesh1.size = Vector3(0.2,0.02,0.02);
+	#mesh1.material = proxMaterial;
+	#var mesh2 := BoxMesh.new();
+	#mesh2.size = Vector3(0.02,0.2,0.02);
+	#mesh2.material = proxMaterial;
+	#var mesh3 := BoxMesh.new();
+	#mesh3.size = Vector3(0.02,0.02,0.2);
+	#mesh3.material = proxMaterial;
+	#for row in size.x+1:
+		#for col in size.y+1:
+			#for i in size.z+1:
+				#var marker := MeshInstance3D.new()
+				#marker.mesh = mesh1
+				#marker.position = Vector3(row, col, i)
+				#add_child(marker);
+				#marker = MeshInstance3D.new()
+				#marker.mesh = mesh2
+				#marker.position = Vector3(row, col, i)
+				#add_child(marker);
+				#marker = MeshInstance3D.new()
+				#marker.mesh = mesh3
+				#marker.position = Vector3(row, col, i)
+				#add_child(marker);
 
 
 #get the center of a cell based on cell coords

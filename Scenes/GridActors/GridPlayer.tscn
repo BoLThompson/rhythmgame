@@ -1,18 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0t7fb6oi8rgj"]
+[gd_scene load_steps=6 format=3 uid="uid://c0t7fb6oi8rgj"]
 
 [ext_resource type="Script" uid="uid://c1nd77ycynh7n" path="res://Scripts/GridPlayer.gd" id="1_nasfx"]
 [ext_resource type="ArrayMesh" uid="uid://cwyhek171u8mv" path="res://assets/art/cursor.obj" id="2_qbkpc"]
+[ext_resource type="AudioStream" uid="uid://dfc077gu0ulw8" path="res://assets/music/boom1.wav" id="3_fyg46"]
+[ext_resource type="Material" uid="uid://7t1l8mfidd8m" path="res://Shaders/PlayerGlow.tres" id="3_j2xql"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qbkpc"]
-emission_enabled = true
-emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 0.78
-
-[sub_resource type="Environment" id="Environment_fyg46"]
+[sub_resource type="Environment" id="Environment_4phkc"]
 background_mode = 3
-background_energy_multiplier = 9.77
+background_energy_multiplier = 3.9
 glow_enabled = true
-glow_intensity = 4.06
 
 [node name="GridPlayer" type="Node"]
 script = ExtResource("1_nasfx")
@@ -20,11 +16,17 @@ metadata/_custom_type_script = "uid://38qvfaor4sas"
 
 [node name="Visual" type="Node3D" parent="."]
 
+[node name="shotMarker" type="Marker3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Visual"]
-transform = Transform3D(-1.74846e-08, 0, 0.4, 0, 0.4, 0, -0.4, 0, -1.74846e-08, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_qbkpc")
+transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 0, 0)
 mesh = ExtResource("2_qbkpc")
 skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_j2xql")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_fyg46")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_fyg46")
+environment = SubResource("Environment_4phkc")

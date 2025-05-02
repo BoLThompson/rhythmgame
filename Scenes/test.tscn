@@ -1,8 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://bo77f8slh1cet"]
+[gd_scene load_steps=21 format=3 uid="uid://bo77f8slh1cet"]
 
 [ext_resource type="Script" uid="uid://cjob4e7iqbmnb" path="res://Scenes/BeatMiser/BeatMiser.gd" id="1_8od7v"]
+[ext_resource type="Material" uid="uid://bebkwogh1xp7g" path="res://Shaders/backgroundtres.tres" id="1_aees8"]
 [ext_resource type="Shader" uid="uid://d34fgskqkejd3" path="res://Shaders/prox.gdshader" id="1_qc4db"]
-[ext_resource type="Shader" uid="uid://bqbgq27nb0oeb" path="res://Shaders/sky.gdshader" id="1_ys1qc"]
 [ext_resource type="Script" uid="uid://bfy2pk5jpqcqe" path="res://Scripts/grid_manager.gd" id="3_o7slt"]
 [ext_resource type="PackedScene" uid="uid://cftcex8j24toi" path="res://Scenes/GridActors/GridWall.tscn" id="4_0c07c"]
 [ext_resource type="PackedScene" uid="uid://b8dggrsyxl7a3" path="res://Scenes/GridActors/GridAsteroid.tscn" id="5_2cgwh"]
@@ -14,19 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://yursj00msbg6" path="res://Scenes/GridActors/GridPacerLeft.tscn" id="8_0qy5o"]
 [ext_resource type="PackedScene" uid="uid://d3027byhmepnr" path="res://Scenes/GridActors/GridPacerRight.tscn" id="9_7nf3m"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_i3aeo"]
-fractal_gain = 0.3
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5wyu1"]
-noise = SubResource("FastNoiseLite_i3aeo")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_35xla"]
-shader = ExtResource("1_ys1qc")
-shader_parameter/noise = SubResource("NoiseTexture2D_5wyu1")
-shader_parameter/baseColor = Color(0.465982, 0.150187, 0.265384, 1)
-
 [sub_resource type="Sky" id="Sky_7xgrm"]
-sky_material = SubResource("ShaderMaterial_35xla")
+sky_material = ExtResource("1_aees8")
 
 [sub_resource type="Environment" id="Environment_w8ear"]
 background_mode = 2

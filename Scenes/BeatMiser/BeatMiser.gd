@@ -31,7 +31,7 @@ func _ready() -> void:
 	)
 	
 	mp.set_file("res://assets/music/midi/synthy_long_metronome.mid");
-	mp.set_soundfont("res://assets/music/soundfont/fb01.sf2");
+	mp.set_soundfont("res://assets/music/soundfont/FB01.sf2");
 	
 	add_child(mp);
 	mp.play();
