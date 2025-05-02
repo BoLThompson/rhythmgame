@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://blf0we8uto7hn"]
+
+[ext_resource type="Texture2D" uid="uid://dp2cymi7yranj" path="res://assets/art/wall_assets_rhythm_Game.png" id="1_ise6d"]
+
+[resource]
+atlas = ExtResource("1_ise6d")
+region = Rect2(0, 100, 100, 100)

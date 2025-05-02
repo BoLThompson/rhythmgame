@@ -22,20 +22,20 @@ void fragment() {
 		-
 		VERTEX
 	);
-	
+
 	float bright = 	(
 		texture(noise, UV*15.+vec2(0.0,TIME*0.02)).x
 		+ texture(noise, UV*7.+vec2(0.0,TIME*-0.03)).x
 		)
 		*0.5;
-	
+
 	chardistance += ((bright-0.5)*scatter);
 	//ALBEDO = vec3(
 		//1. - fract(chardistance/outerThresh)
 	//);
-	
+
 	if (chardistance < outerThresh) {
-	
+
 		if (chardistance > innerThresh)
 			ALBEDO = edgecolor;
 	}

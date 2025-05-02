@@ -1,8 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://cftcex8j24toi"]
+[gd_scene load_steps=6 format=3 uid="uid://cftcex8j24toi"]
 
 [ext_resource type="Script" uid="uid://38qvfaor4sas" path="res://Scripts/GridActor.gd" id="1_jvlfc"]
+[ext_resource type="Texture2D" uid="uid://dp2cymi7yranj" path="res://assets/art/wall_assets_rhythm_Game.png" id="2_8y0tw"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_jvlfc"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_hb3fb"]
+size = Vector2(1.2, 1.2)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8y0tw"]
+emission_enabled = true
+emission = Color(0.801479, 0.345794, 0.881392, 1)
+emission_energy_multiplier = 4.43
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0dhyl"]
+atlas = ExtResource("2_8y0tw")
+region = Rect2(100, 100, 100, 100)
 
 [node name="GridWall" type="Node"]
 script = ExtResource("1_jvlfc")
@@ -11,6 +23,13 @@ metadata/_custom_type_script = "uid://38qvfaor4sas"
 [node name="Visual" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.454496)
+mesh = SubResource("PlaneMesh_hb3fb")
+skeleton = NodePath("../Sprite3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_8y0tw")
+
+[node name="Sprite3D" type="Sprite3D" parent="Visual"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
-mesh = SubResource("QuadMesh_jvlfc")
-skeleton = NodePath("../..")
+transparent = false
+texture_filter = 0
+texture = SubResource("AtlasTexture_0dhyl")

@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://73j8jrh8607o"]
+
+[sub_resource type="MeshTexture" id="MeshTexture_extod"]
+
+[resource]
+albedo_texture = SubResource("MeshTexture_extod")

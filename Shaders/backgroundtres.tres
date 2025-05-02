@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bebkwogh1xp7g"]
+
+[ext_resource type="Shader" uid="uid://bqbgq27nb0oeb" path="res://Shaders/sky.gdshader" id="1_w5qxo"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_i3aeo"]
+noise_type = 2
+seed = 5
+frequency = 0.0057
+fractal_gain = 0.3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5wyu1"]
+as_normal_map = true
+bump_strength = 72.5
+noise = SubResource("FastNoiseLite_i3aeo")
+
+[resource]
+shader = ExtResource("1_w5qxo")
+shader_parameter/noise = SubResource("NoiseTexture2D_5wyu1")
+shader_parameter/baseColor = Color(0.405915, 0.243779, 0.33453, 1)
