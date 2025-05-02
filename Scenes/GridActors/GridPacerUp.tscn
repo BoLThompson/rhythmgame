@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpaixnw2km0ib"]
+
+[ext_resource type="PackedScene" uid="uid://ceoh28iy5kxag" path="res://Scenes/GridActors/GridPacer.tscn" id="1_xc20n"]
+
+[node name="GridPacer" instance=ExtResource("1_xc20n")]
+direction = 0
