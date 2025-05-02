@@ -31,6 +31,8 @@ func tryMoving(newPos: Vector3) -> void:
 	for slot in slots:
 		if slot.has_method("collide"):
 			slot.collide(self);
+		elif slot.has_method("destroy"):
+			slot.destroy()
 
 	#actually move
 	g.moveActor(self, newPos);

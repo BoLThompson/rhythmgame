@@ -20,6 +20,6 @@ mesh = SubResource("CapsuleMesh_ko31d")
 surface_material_override/0 = SubResource("StandardMaterial3D_mhnif")
 
 [node name="moveTimer" type="Timer" parent="."]
-wait_time = 0.35
+wait_time = 0.2
 
 [connection signal="timeout" from="moveTimer" to="." method="_on_move_timer_timeout"]
