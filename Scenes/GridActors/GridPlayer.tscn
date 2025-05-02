@@ -11,6 +11,9 @@ metadata/_custom_type_script = "uid://38qvfaor4sas"
 
 [node name="Visual" type="Node3D" parent="."]
 
+[node name="shotMarker" type="Marker3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Visual"]
 mesh = SubResource("BoxMesh_nasfx")
 skeleton = NodePath("../..")
