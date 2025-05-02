@@ -56,7 +56,9 @@ func _process(delta: float) -> void:
 			).set_ease(Tween.EASE_OUT);
 
 func shoot_laser():
-	g.spawnGridActor(LASER, shot_marker.position)
+	var shot_position = position
+	shot_position.z -= 1
+	g.spawnGridActor(LASER, shot_position)
 	#$Bullets.add_child(new_laser)
 	
 

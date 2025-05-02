@@ -29,8 +29,10 @@ func tryMoving(newPos: Vector3) -> void:
 		return;
 
 	for slot in slots:
+		#slot is a the grid player
 		if slot.has_method("collide"):
 			slot.collide(self);
+			# slot is grid asteroid
 		elif slot.has_method("destroy"):
 			slot.destroy()
 
